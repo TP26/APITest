@@ -1,10 +1,35 @@
 using APITest;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi;
+
+//To add - Swagger documentation
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ItemDb>(opt => opt.UseInMemoryDatabase("ItemList"));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddEndpointsApiExplorer();
+//builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "Item API",
+        Description = "Simple testing Item API",
+    });
+});
+
 WebApplication app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+        options.RoutePrefix = string.Empty;
+    });
+}
 
 app.MapGet("/items", async (ItemDb db) =>
     await db.Items.ToListAsync());
