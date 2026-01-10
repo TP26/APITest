@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-namespace APITest
+namespace APITest.Models
 {
     [PrimaryKey(nameof(Id))]
-    public class Item
+    public class ItemDTO
     {
         [Key]
         public int Id { get; set; }
