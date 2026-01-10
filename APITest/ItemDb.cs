@@ -1,4 +1,4 @@
-﻿using APITest;
+﻿using APITest.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace APITest
