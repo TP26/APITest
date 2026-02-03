@@ -1,5 +1,4 @@
 using APITest.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -7,12 +6,14 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<ItemContext>(opt => opt.UseInMemoryDatabase("Item"));
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/Account/Login";
-    });
+
+string postgresqlConnectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
+
+builder.Services.AddDbContext<CategoryContext>(options => options.UseNpgsql(postgresqlConnectionString));
+builder.Services.AddDbContext<ItemContext>(options => options.UseNpgsql(postgresqlConnectionString));
+builder.Services.AddDbContext<ConfigurationItemListsContext>(options => options.UseNpgsql(postgresqlConnectionString));
+builder.Services.AddDbContext<ConfigurationContext>(options => options.UseNpgsql(postgresqlConnectionString));
+builder.Services.AddDbContext<CoOrdinatesContext>(options => options.UseNpgsql(postgresqlConnectionString));
 
 WebApplication app = builder.Build();
 
