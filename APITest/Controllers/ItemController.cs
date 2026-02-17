@@ -22,7 +22,7 @@ namespace APITest.Controllers
         }
 
         [HttpGet]
-        [Route("/{id}")]
+        [Route("/items/{id}")]
         public async Task<ActionResult<ItemDTO>> GetItemsWithId(int id)
         {
             ItemDTO? item = await _context.Items.FindAsync(id);
@@ -36,7 +36,7 @@ namespace APITest.Controllers
         }
 
         [HttpGet]
-        [Route("/find/{position}")]
+        [Route("/items/find/{position}")]
         public async Task<ActionResult<IEnumerable<ItemDTO>>> GetItemsWithPosition(int position)
         {
             return await _context.Items.Where(item => item.Position == position).ToListAsync(); 
@@ -45,10 +45,17 @@ namespace APITest.Controllers
         [HttpPost]
         public async Task<ActionResult<ItemDTO>> PostItem(ItemDTO item)
         {
+            ItemDTO? existingItem = await _context.Items.FindAsync(item.Id);
+
+            if (existingItem != null)
+            {
+                return Problem("Item with this Id already exists.");
+            }
+
             _context.Items.Add(item);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(item), new { id = item.Id }, item);
+            return CreatedAtAction("PostItem", item);
         }
 
         [HttpPut]

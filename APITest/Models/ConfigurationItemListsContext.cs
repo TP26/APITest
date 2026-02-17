@@ -6,6 +6,11 @@ namespace APITest.Models
     {
         public ConfigurationItemListsContext(DbContextOptions<ConfigurationItemListsContext> options) : base(options) { }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+        }
+
         public DbSet<ConfigurationItemLists> ConfigurationItemLists { get; set; } = null!;
     }
 }

@@ -33,5 +33,19 @@ namespace APITest.Controllers
 
             return category;
         }
+
+        [HttpDelete]
+        [Route("/categories/{id}")]
+        public async Task<ActionResult> DeleteCategory(int id)
+        {
+            if (await _context.Categories.FindAsync(id) is Category category)
+            {
+                _context.Categories.Remove(category);
+                await _context.SaveChangesAsync();
+                return NoContent();
+            }
+
+            return NotFound();
+        }
     }
 }
