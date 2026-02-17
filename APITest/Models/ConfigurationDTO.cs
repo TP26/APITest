@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace APITest.Models
 {
+    //Configuration Data Transfer Object
     [PrimaryKey(nameof(Id))]
     public class ConfigurationDTO
     {

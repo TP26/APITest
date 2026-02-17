@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace APITest.Models
 {
+    //Item Data Transfer Object
     [PrimaryKey(nameof(Id))]
     public class ItemDTO
     {

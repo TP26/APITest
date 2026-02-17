@@ -9,11 +9,11 @@ builder.Services.AddSwaggerGen();
 
 string postgresqlConnectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
 
-builder.Services.AddDbContext<CategoryContext>(options => options.UseNpgsql(postgresqlConnectionString));
-builder.Services.AddDbContext<ItemContext>(options => options.UseNpgsql(postgresqlConnectionString));
-builder.Services.AddDbContext<ConfigurationItemListsContext>(options => options.UseNpgsql(postgresqlConnectionString));
-builder.Services.AddDbContext<ConfigurationContext>(options => options.UseNpgsql(postgresqlConnectionString));
-builder.Services.AddDbContext<CoOrdinatesContext>(options => options.UseNpgsql(postgresqlConnectionString));
+builder.Services.AddDbContext<CategoryContext>(options => options.UseNpgsql(postgresqlConnectionString), contextLifetime: ServiceLifetime.Scoped);
+builder.Services.AddDbContext<ItemContext>(options => options.UseNpgsql(postgresqlConnectionString), contextLifetime: ServiceLifetime.Scoped);
+builder.Services.AddDbContext<ConfigurationItemListsContext>(options => options.UseNpgsql(postgresqlConnectionString),contextLifetime: ServiceLifetime.Scoped);
+builder.Services.AddDbContext<ConfigurationContext>(options => options.UseNpgsql(postgresqlConnectionString), contextLifetime: ServiceLifetime.Scoped);
+builder.Services.AddDbContext<CoOrdinatesContext>(options => options.UseNpgsql(postgresqlConnectionString), contextLifetime: ServiceLifetime.Scoped);
 
 WebApplication app = builder.Build();
 
